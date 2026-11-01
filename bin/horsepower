@@ -1,15 +1,19 @@
 #!/usr/bin/python3
-"""Launch the HorsePower desktop application."""
+"""Launch the HorsePower desktop application.
+
+Installed, the package lives in /usr/lib/python3/dist-packages and is imported
+directly. In a source checkout this adds ``src/`` to the path so the launcher
+works without installing anything.
+"""
 
 import sys
 from pathlib import Path
 
 _root = Path(__file__).resolve().parent.parent
-_installed = _root / "lib" / "horsepower"
-if _installed.is_dir():
-    sys.path.insert(0, str(_installed))
-else:
-    sys.path.insert(0, str(_root / "src"))
+for _candidate in (_root / "src", _root / "lib", _root / "lib" / "horsepower"):
+    if (_candidate / "horsepower").is_dir():
+        sys.path.insert(0, str(_candidate))
+        break
 
 from horsepower.ui.app import main  # noqa: E402
 

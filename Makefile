@@ -7,7 +7,7 @@ DEB := dist/horsepower_$(DEB_VERSION)_$(ARCH).deb
 CARGO ?= $(shell command -v cargo 2>/dev/null || echo $(HOME)/.cargo/bin/cargo)
 RUST := rust/horsepowerd
 
-.PHONY: all test test-rust test-python lint lint-rust deb build install run preview clean
+.PHONY: all test test-rust test-python lint lint-rust deb source build install run preview clean
 
 all: test deb
 
@@ -37,6 +37,11 @@ install: $(DEB)
 # A debhelper build, for uploads and PPAs. Produces the .deb one directory up.
 build:
 	dpkg-buildpackage -b -us -uc
+
+# Signed source package for the PPA. Set KEYID to your upload key.
+KEYID ?=
+source:
+	$(PYTHON) scripts/make-source.py $(if $(KEYID),--sign $(KEYID),)
 
 # Make the build work without network access (needed on Launchpad).
 vendor:

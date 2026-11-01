@@ -12,7 +12,8 @@ override_dh_auto_configure:
 	# dependencies when they are present so the build stays offline.
 
 override_dh_auto_build:
-	python3 -m compileall -q src/horsepower
+	# Pure Python plus the Rust crate, which scripts/stage.py builds.
+	@true
 
 override_dh_auto_test:
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
@@ -21,6 +22,8 @@ ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 endif
 
 override_dh_auto_install:
+	# dh_python3 byte-compiles at install time (py3compile in postinst), so the
+	# package ships source only and stays independent of the build interpreter.
 	python3 scripts/stage.py debian/horsepower --clean
 
 override_dh_auto_clean:

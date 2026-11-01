@@ -3,6 +3,8 @@ Section: utils
 Priority: optional
 Maintainer: HorsePower contributors <furkaniusprimes@gmail.com>
 Build-Depends: debhelper-compat (= 13),
+               dh-sequence-python3,
+               python3:native,
                cargo,
                rustc (>= 1.89)
 Standards-Version: 4.6.2
@@ -13,7 +15,7 @@ Vcs-Git: https://github.com/thepeakiscold/horsepower.git
 
 Package: horsepower
 Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends},
+Depends: ${misc:Depends}, ${shlibs:Depends}, ${python3:Depends},
          libc6 (>= 2.34),
          python3 (>= 3.10),
          python3-gi (>= 3.42),

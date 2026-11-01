@@ -115,12 +115,48 @@ def build_orig(workdir: Path, source: str, version: str, destination: Path) -> P
 
 def build_source(workdir: Path, destination: Path, sign: str | None) -> int:
     # `dpkg-source -b` finds the matching `../<source>_<version>.orig.tar.gz`
-    # next to the work directory. Signing is `-k<keyid>`, not an env var.
+    # next to the work directory. It always writes an *unsigned* .dsc;
+    # signing it is a separate step (debsign does exactly this).
     command = ["dpkg-source", "-b", str(workdir)]
-    if sign:
-        command.append(f"-k{sign}")
     print("Running:", " ".join(command))
-    return subprocess.run(command, cwd=destination).returncode
+    status = subprocess.run(command, cwd=destination).returncode
+    if status != 0:
+        return status
+    if not sign:
+        print("NOTE: the .dsc is unsigned; Launchpad requires a signature.")
+        return 0
+    return sign_dsc(destination, sign)
+
+
+def sign_dsc(destination: Path, key: str) -> int:
+    """Clearsign the .dsc, which is exactly the format Launchpad expects."""
+    dsc = next(destination.glob("horsepower_*.dsc"), None)
+    if dsc is None:
+        print("no .dsc to sign", file=sys.stderr)
+        return 1
+    unsigned = dsc.with_suffix(".dsc.unsigned")
+    dsc.rename(unsigned)
+    print(f"Signing {dsc.name} with {key}")
+    status = subprocess.run(
+        [
+            "gpg",
+            "--batch",
+            "--yes",
+            "--armor",
+            "--clearsign",
+            "--digest-algo",
+            "SHA256",
+            "--local-user",
+            key,
+            "--output",
+            str(dsc),
+            str(unsigned),
+        ]
+    ).returncode
+    unsigned.unlink(missing_ok=True)
+    if status == 0:
+        print(f"Signed {dsc.name}")
+    return status
 
 
 def main() -> int:

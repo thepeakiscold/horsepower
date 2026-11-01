@@ -153,7 +153,10 @@ def stage_tree(
     architecture: str | None = None,
 ) -> None:
     """Install HorsePower's files under *stage* (a future filesystem root)."""
-    lib = stage / "usr/lib/horsepower"
+    # Debian's standard location for distribution Python modules. Putting the
+    # package here (rather than under /usr/lib/horsepower) lets dh_python3
+    # byte-compile it and lets any local script `import horsepower`.
+    lib = stage / "usr/lib/python3/dist-packages"
     bin_dir = stage / "usr/bin"
     share = stage / "usr/share"
 

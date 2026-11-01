@@ -72,6 +72,16 @@ at.
 
 ## Install
 
+From the PPA (recommended, gets updates):
+
+```sh
+sudo add-apt-repository ppa:thepeakiscold/horsepower
+sudo apt update
+sudo apt install horsepower
+```
+
+Or from a local build:
+
 ```sh
 sudo apt install ./horsepower_1.0.0_amd64.deb
 ```
@@ -225,7 +235,7 @@ choice was about resident memory in a process that never exits, not speed.
 
 ## Build
 
-### The package
+### A binary package
 
 ```sh
 python3 scripts/build-deb.py           # dist/horsepower_1.0.0_amd64.deb
@@ -234,6 +244,16 @@ python3 scripts/build-deb.py           # dist/horsepower_1.0.0_amd64.deb
 This compiles the Rust daemon and stages the Python GUI into one package. The
 package is architecture specific (`amd64` here) because the daemon is a
 compiled binary; the Python half is still portable.
+
+### A signed source package for the PPA
+
+```sh
+python3 scripts/make-source.py --sign 4CDB0FC0772009A8A1206A77BC195B949E8846BA
+dput horsepower dist/horsepower_1.0.0-0ubuntu1.dsc
+```
+
+[docs/PUBLISHING.md](docs/PUBLISHING.md) covers the one-time Launchpad setup,
+the signing key and the release checklist.
 
 ### With debhelper (for a PPA or a full source upload)
 

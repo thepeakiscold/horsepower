@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="field" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#1a1e12"/>
+      <stop offset="1" stop-color="#090a08"/>
+    </linearGradient>
+    <linearGradient id="spark" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#9dcc28"/>
+      <stop offset="1" stop-color="#ddff85"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="4" y="4" width="120" height="120" rx="28" fill="url(#field)"/>
+
+  <!-- 270 degree gauge track, opening at the bottom -->
+  <path d="M 35 93 A 41 41 0 1 1 93 93"
+        fill="none" stroke="#2a2f21" stroke-width="9" stroke-linecap="round"/>
+  <path d="M 35 93 A 41 41 0 1 1 93 93"
+        fill="none" stroke="url(#spark)" stroke-width="9" stroke-linecap="round"
+        stroke-dasharray="151 258"/>
+
+  <!-- bolt -->
+  <path d="M 71 39 L 47 69 L 61 69 L 55 91 L 81 58 L 66 58 Z" fill="#eff9d8"/>
+</svg>

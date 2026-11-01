@@ -1,0 +1,39 @@
+#!/usr/bin/make -f
+# Build HorsePower with debhelper. The installed file list lives in
+# scripts/hpbuild.py so that the debhelper build and the standalone
+# scripts/build-deb.py build can never drift apart. That helper also compiles
+# the Rust daemon into the staging tree.
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	# The Rust crate is built by scripts/stage.py, using the vendored
+	# dependencies when they are present so the build stays offline.
+
+override_dh_auto_build:
+	python3 -m compileall -q src/horsepower
+
+override_dh_auto_test:
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+	PYTHONPATH=src python3 -m unittest discover -s tests -v
+	cargo test --release --locked --manifest-path rust/horsepowerd/Cargo.toml
+endif
+
+override_dh_auto_install:
+	python3 scripts/stage.py debian/horsepower --clean
+
+override_dh_auto_clean:
+	find . -name '__pycache__' -type d -prune -exec rm -rf {} +
+	rm -rf dist debian/horsepower rust/horsepowerd/target
+
+override_dh_missing:
+	dh_missing --fail-missing
+
+override_dh_strip:
+	# The release profile already strips the binary.
+	dh_strip --no-automatic-dbgsym
+
+.PHONY: override_dh_auto_configure override_dh_auto_build override_dh_auto_test \
+	override_dh_auto_install override_dh_auto_clean override_dh_missing \
+	override_dh_strip

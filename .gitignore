@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+dist/
+debian/horsepower/
+debian/.debhelper/
+debian/files
+debian/horsepower.substvars
+*.deb
+*.buildinfo
+*.changes
+.dsc
+preview.png
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# Rust build artifacts. Cargo.lock is committed: this is an application, and
+# reproducible dependency versions matter for a root service.
+rust/horsepowerd/target/
+# Only needed for offline (Launchpad) builds; see scripts/vendor-rust.py.
+rust/horsepowerd/vendor/
+rust/horsepowerd/.cargo/

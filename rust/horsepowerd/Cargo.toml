@@ -1,0 +1,36 @@
+[package]
+name = "horsepowerd"
+version = "1.0.0"
+edition = "2021"
+# Highest MSRV among the dependencies, not a wish: rusqlite needs 1.89.
+# Ubuntu 24.04 ships rustc 1.75 and cannot build this crate; 26.04 (1.93) can.
+rust-version = "1.89"
+description = "HorsePower power metering service"
+license = "MIT"
+repository = "https://github.com/horsepower-app/horsepower"
+
+[[bin]]
+name = "horsepowerd"
+path = "src/main.rs"
+
+[dependencies]
+# D-Bus without pulling in libdbus: pure Rust, tokio friendly.
+zbus = { version = "5", default-features = false, features = ["tokio"] }
+# Async runtime: threads, timers, signals.
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "signal", "time", "sync"] }
+# SQLite, statically compiled so the package needs no libsqlite3-dev at build
+# time and no version skew at run time.
+rusqlite = { version = "0.41", features = ["bundled"] }
+# dlopen for NVML: the driver may be absent, upgraded or replaced at any time,
+# so it must never be a hard link-time dependency.
+libloading = "0.9"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = "symbols"
+
+[dev-dependencies]
+tempfile = "3"

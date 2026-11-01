@@ -1,0 +1,23 @@
+#!/bin/sh
+set -e
+
+if [ -d /run/systemd/system ]; then
+    systemctl --system daemon-reload >/dev/null || true
+fi
+
+case "$1" in
+    purge)
+        # The telemetry log belongs to the machine, not to the package. Only
+        # throw it away when the package is purged explicitly.
+        rm -rf /var/lib/horsepower
+        ;;
+    remove)
+        ;;
+    upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+        ;;
+    *)
+        ;;
+esac
+
+#DEBHELPER#
+exit 0

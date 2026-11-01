@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "horsepower"
+version = "1.0.0"
+description = "See how much electricity this computer is using (GUI; the service is Rust)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "HorsePower contributors" }]
+dependencies = []
+classifiers = [
+    "Environment :: X11 Applications :: GTK",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Topic :: System :: Monitoring",
+]
+
+[project.urls]
+Homepage = "https://github.com/thepeakiscold/horsepower"
+
+[project.scripts]
+horsepower = "horsepower.ui.app:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"horsepower.ui" = ["style.css"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+src = ["src", "tests", "scripts"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"scripts/preview.py" = ["SLF001"]
+
+[tool.mypy]
+python_version = "3.10"
+packages = ["horsepower"]
+mypy_path = "src"
+warn_unused_ignores = true
+warn_redundant_casts = true
+strict_equality = true
+ignore_missing_imports = true

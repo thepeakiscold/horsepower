@@ -1,0 +1,1 @@
+"""Graphical interface for HorsePower."""

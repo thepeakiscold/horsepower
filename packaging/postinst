@@ -1,0 +1,28 @@
+#!/bin/sh
+set -e
+
+if [ "$1" = "configure" ]; then
+    if [ -d /run/systemd/system ]; then
+        systemctl --system daemon-reload >/dev/null || true
+        if command -v deb-systemd-helper >/dev/null 2>&1; then
+            deb-systemd-helper unmask horsepower.service >/dev/null || true
+            # Keep the administrator's enabled/disabled choice on upgrades.
+            if deb-systemd-helper --quiet was-enabled horsepower.service; then
+                deb-systemd-helper enable horsepower.service >/dev/null || true
+            else
+                deb-systemd-helper update-state horsepower.service >/dev/null || true
+            fi
+            if command -v deb-systemd-invoke >/dev/null 2>&1; then
+                deb-systemd-invoke restart horsepower.service >/dev/null || true
+            else
+                systemctl restart horsepower.service >/dev/null || true
+            fi
+        else
+            systemctl enable horsepower.service >/dev/null || true
+            systemctl restart horsepower.service >/dev/null || true
+        fi
+    fi
+fi
+
+#DEBHELPER#
+exit 0

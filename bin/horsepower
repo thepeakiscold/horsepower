@@ -1,0 +1,16 @@
+#!/usr/bin/python3
+"""Launch the HorsePower desktop application."""
+
+import sys
+from pathlib import Path
+
+_root = Path(__file__).resolve().parent.parent
+_installed = _root / "lib" / "horsepower"
+if _installed.is_dir():
+    sys.path.insert(0, str(_installed))
+else:
+    sys.path.insert(0, str(_root / "src"))
+
+from horsepower.ui.app import main  # noqa: E402
+
+raise SystemExit(main())

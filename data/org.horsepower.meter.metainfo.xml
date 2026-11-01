@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.horsepower.meter</id>
+  <metadata_license>MIT</metadata_license>
+  <project_license>MIT</project_license>
+  <name>HorsePower</name>
+  <summary>See how much electricity this computer is using</summary>
+
+  <description>
+    <p>
+      HorsePower reads the energy counters built into Intel and AMD processors
+      and shows the power your machine is drawing right now, a breakdown of
+      where that power goes, what it has used today, and what it has used since
+      it was installed.
+    </p>
+    <p>
+      The breakdown separates the CPU package, the graphics card, memory,
+      storage and the rest of the system. It only lists a component when your
+      machine can actually measure it, so an unmeasurable part is left out
+      rather than shown as zero.
+    </p>
+    <p>
+      A small background service samples the counter once a second and keeps a
+      local log, so the totals stay correct even when the window is closed or
+      the machine reboots. Daily totals are kept forever; minute-level data is
+      kept for three months.
+    </p>
+    <p>
+      The processor counters measure the CPU package (cores, cache and, on some
+      systems, memory). On machines that expose a platform-level counter,
+      HorsePower reports whole-system power instead. Laptops without either
+      interface fall back to the battery's power reading.
+    </p>
+    <p>
+      Enter your electricity tariff in Preferences to see the cost of the
+      energy you use. Everything stays on this computer.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">org.horsepower.meter.desktop</launchable>
+
+  <url type="homepage">https://github.com/thepeakiscold/horsepower</url>
+  <url type="bugtracker">https://github.com/thepeakiscold/horsepower/issues</url>
+
+  <developer id="org.horsepower">
+    <name>HorsePower contributors</name>
+  </developer>
+
+  <content_rating type="oars-1.1"/>
+
+  <releases>
+    <release version="1.0.0" date="2026-11-01">
+      <description>
+        <p>First release: live power with a per-component breakdown, daily and lifetime totals, one-hour history and cost estimates.</p>
+      </description>
+    </release>
+  </releases>
+
+  <requires>
+    <display_length compare="ge">480</display_length>
+  </requires>
+
+  <recommends>
+    <control>pointing</control>
+    <control>keyboard</control>
+  </recommends>
+</component>

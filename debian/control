@@ -1,0 +1,37 @@
+Source: horsepower
+Section: utils
+Priority: optional
+Maintainer: HorsePower contributors <furkaniusprimes@gmail.com>
+Build-Depends: debhelper-compat (= 13),
+               cargo,
+               rustc (>= 1.89)
+Standards-Version: 4.6.2
+Rules-Requires-Root: no
+Homepage: https://github.com/thepeakiscold/horsepower
+Vcs-Browser: https://github.com/thepeakiscold/horsepower
+Vcs-Git: https://github.com/thepeakiscold/horsepower.git
+
+Package: horsepower
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends},
+         libc6 (>= 2.34),
+         python3 (>= 3.10),
+         python3-gi (>= 3.42),
+         python3-gi-cairo,
+         python3-cairo,
+         gir1.2-gtk-4.0 (>= 4.10),
+         gir1.2-adw-1 (>= 1.5),
+         init-system-helpers (>= 1.52),
+         dbus
+Description: see how much electricity this computer is using
+ HorsePower reads the energy counters built into Intel and AMD processors and
+ shows the power drawn right now, a breakdown of where it goes, the energy used
+ today and the energy used since installation. A small background service
+ samples the counter every second and keeps a local SQLite log, so totals stay
+ correct while the window is closed. Daily totals are kept forever and minute
+ samples for ninety days. An optional tariff turns energy into cost.
+ .
+ The breakdown separates the CPU package, the graphics card, memory, storage
+ and the rest of the system, omitting any part the machine cannot measure.
+ Readings cover the whole platform where a platform counter is exposed, and the
+ battery on machines without RAPL. Nothing leaves the computer.

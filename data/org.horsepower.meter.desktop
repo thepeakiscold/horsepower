@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=HorsePower
+GenericName=Power Meter
+Comment=See how much electricity this computer is using
+Exec=horsepower
+Icon=org.horsepower.meter
+Terminal=false
+Categories=System;Monitor;
+Keywords=power;watt;energy;electricity;battery;consumption;kwh;
+StartupNotify=true
+StartupWMClass=org.horsepower.meter
+X-GNOME-UsesNotifications=false

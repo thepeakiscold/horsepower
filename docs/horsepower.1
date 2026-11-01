@@ -1,0 +1,65 @@
+.TH HORSEPOWER 1 "November 2026" "HorsePower 1.0.0" "User Commands"
+.SH NAME
+horsepower \- see how much electricity this computer is using
+.SH SYNOPSIS
+.B horsepower
+.RB [ \-\-version ]
+.SH DESCRIPTION
+.B horsepower
+opens a small window that shows the power the machine is drawing right now,
+a breakdown of where that power goes, the energy it has used today, the energy
+it has used since HorsePower was installed, and a chart of the last hour.
+.PP
+The breakdown lists the CPU package, the graphics card, memory and storage, and
+whatever remains of the platform total. A component appears only when the
+machine can genuinely measure it; unmeasurable parts are omitted rather than
+shown as zero. When the firmware exposes a platform-wide counter the caption
+reads
+.IR "system power" ,
+otherwise it reads
+.IR "measured parts" .
+.PP
+The readings come from the energy counters that Intel and AMD processors
+expose through
+.IR /sys/class/powercap ,
+from NVML or hwmon for graphics cards, and from the battery's power attribute
+on machines without any of those.
+.PP
+Samples are collected by
+.BR horsepowerd (8),
+which runs in the background, so totals continue to accumulate while the
+window is closed.
+.PP
+The cost shown in the window uses the tariff entered in
+.IR Preferences .
+Both the tariff and the log stay on this computer; nothing is uploaded.
+.SH OPTIONS
+.TP
+.B \-\-version
+Print the version and exit.
+.SH FILES
+.TP
+.I ~/.config/horsepower/settings.json
+The electricity tariff and currency used for cost estimates.
+.TP
+.I /var/lib/horsepower/power.db
+The SQLite log written by the background service.
+.SH ENVIRONMENT
+.TP
+.B HORSEPOWER_BUS
+Set to
+.I session
+to talk to a user session bus instead of the system bus. Intended for
+development.
+.TP
+.B HORSEPOWER_DEBUG
+Enable verbose application logging.
+.SH SEE ALSO
+.BR horsepowerd (8),
+.BR systemctl (1)
+.SH BUGS
+Fans are not individually metered by any mainstream Linux interface, so they
+only appear inside "rest of system" when a platform counter exists. Displays
+and USB peripherals are outside the platform counter on most desktops, so on a
+machine without a platform total the number describes the computer's brain,
+not the whole desk.

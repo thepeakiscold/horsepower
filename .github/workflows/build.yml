@@ -1,0 +1,64 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test-and-package:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install GUI dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            python3-gi python3-gi-cairo python3-cairo python3-pyflakes \
+            gir1.2-gtk-4.0 gir1.2-adw-1 dbus desktop-file-utils \
+            appstream xvfb
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: Cache cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            rust/horsepowerd/target
+          key: cargo-${{ hashFiles('rust/horsepowerd/Cargo.lock') }}
+
+      - name: Lint
+        run: make lint
+
+      - name: Test the daemon
+        run: make test-rust
+
+      - name: Test the GUI helpers
+        run: make test-python
+
+      - name: Validate desktop integration
+        run: |
+          desktop-file-validate data/org.horsepower.meter.desktop
+          appstreamcli validate --no-net --pedantic data/org.horsepower.meter.metainfo.xml
+
+      - name: Build the package
+        run: make deb
+
+      - name: Install and smoke test the package
+        run: |
+          sudo apt-get install -y ./dist/horsepower_*_amd64.deb
+          horsepowerd --version
+          systemd-analyze verify /usr/lib/systemd/system/horsepower.service || true
+          timeout 6 xvfb-run -a horsepower || test $? -eq 124
+
+      - name: Upload the .deb
+        uses: actions/upload-artifact@v4
+        with:
+          name: horsepower-deb
+          path: dist/*.deb

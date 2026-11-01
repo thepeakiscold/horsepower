@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<node name="/org/horsepower/Daemon">
+  <interface name="org.horsepower.Daemon">
+    <method name="GetStatus">
+      <arg type="a{sv}" name="status" direction="out"/>
+    </method>
+    <method name="GetHistory">
+      <arg type="u" name="minutes" direction="in"/>
+      <arg type="a(xdd)" name="points" direction="out"/>
+    </method>
+    <signal name="StatusChanged">
+      <arg type="a{sv}" name="status"/>
+    </signal>
+    <signal name="HistoryChanged"/>
+  </interface>
+</node>

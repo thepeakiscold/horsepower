@@ -1,0 +1,39 @@
+[Unit]
+Description=HorsePower power metering service
+Documentation=man:horsepowerd(8)
+After=dbus.service
+Requires=dbus.socket
+
+[Service]
+Type=dbus
+BusName=org.horsepower.Daemon
+ExecStart=/usr/bin/horsepowerd --foreground
+Restart=on-failure
+RestartSec=5s
+UMask=0027
+
+# The service only reads energy counters and appends to one database, so it
+# needs very little of the system.
+StateDirectory=horsepower
+StateDirectoryMode=0750
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+SystemCallArchitectures=native
+RestrictAddressFamilies=AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

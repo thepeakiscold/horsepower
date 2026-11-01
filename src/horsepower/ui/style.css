@@ -1,0 +1,250 @@
+/* HorsePower — a deliberately quiet instrument panel. */
+
+window.hp-dark {
+  background-color: #0b0c0b;
+  color: #f0f2e7;
+}
+
+window.hp-light {
+  background-color: #f3f2ec;
+  color: #171910;
+}
+
+.hp-dark headerbar,
+.hp-light headerbar {
+  background: transparent;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  min-height: 46px;
+}
+
+.hp-dark headerbar {
+  color: #f0f2e7;
+}
+
+.hp-light headerbar {
+  color: #171910;
+}
+
+.hp-brand {
+  padding-left: 10px;
+}
+
+.hp-mark {
+  min-width: 7px;
+  min-height: 7px;
+  border-radius: 2px;
+  margin-right: 9px;
+}
+
+.hp-dark .hp-mark {
+  background-color: #c9f75a;
+}
+
+.hp-light .hp-mark {
+  background-color: #557600;
+}
+
+.hp-wordmark {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2.2px;
+}
+
+.hp-dark .hp-wordmark {
+  color: #d8dccb;
+}
+
+.hp-light .hp-wordmark {
+  color: #34382c;
+}
+
+/* A bare dot is the whole status badge: no word, no box. */
+.hp-status-dot {
+  min-width: 7px;
+  min-height: 7px;
+  border-radius: 7px;
+  margin-right: 10px;
+}
+
+.hp-dark .hp-status-live {
+  background-color: #c9f75a;
+  box-shadow: 0 0 0 3px rgba(201, 247, 90, 0.12);
+}
+
+.hp-dark .hp-status-warn {
+  background-color: #ffc154;
+  box-shadow: 0 0 0 3px rgba(255, 193, 84, 0.12);
+}
+
+.hp-dark .hp-status-offline {
+  background-color: #4a5046;
+}
+
+.hp-light .hp-status-live {
+  background-color: #557600;
+  box-shadow: 0 0 0 3px rgba(85, 118, 0, 0.12);
+}
+
+.hp-light .hp-status-warn {
+  background-color: #a66600;
+  box-shadow: 0 0 0 3px rgba(166, 102, 0, 0.12);
+}
+
+.hp-light .hp-status-offline {
+  background-color: #b3b7aa;
+}
+
+menubutton.hp-menu-btn button {
+  background: transparent;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  min-width: 28px;
+  min-height: 28px;
+  padding: 2px;
+}
+
+.hp-dark menubutton.hp-menu-btn button {
+  color: #858b7d;
+}
+
+.hp-light menubutton.hp-menu-btn button {
+  color: #686d5f;
+}
+
+.hp-content {
+  padding: 4px 30px 22px 30px;
+}
+
+.hp-stat-label {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.hp-dark .hp-stat-label {
+  color: #858b7d;
+}
+
+.hp-light .hp-stat-label {
+  color: #686d5f;
+}
+
+.hp-stat-value {
+  font-size: 22px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.hp-dark .hp-stat-value {
+  color: #f0f2e7;
+}
+
+.hp-light .hp-stat-value {
+  color: #171910;
+}
+
+.hp-stat-sub {
+  font-size: 10px;
+  margin-top: 3px;
+}
+
+.hp-dark .hp-stat-sub {
+  color: #858b7d;
+}
+
+.hp-light .hp-stat-sub {
+  color: #686d5f;
+}
+
+.hp-separator {
+  min-width: 1px;
+  margin: 2px 0;
+}
+
+.hp-dark .hp-separator {
+  background-color: #292d24;
+}
+
+.hp-light .hp-separator {
+  background-color: #d5d6c9;
+}
+
+.hp-card {
+  border-radius: 16px;
+  padding: 14px 16px 12px 16px;
+}
+
+.hp-dark .hp-card {
+  background-color: #131511;
+}
+
+.hp-light .hp-card {
+  background-color: #e9e8df;
+}
+
+.hp-chart-title {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.hp-dark .hp-chart-title {
+  color: #858b7d;
+}
+
+.hp-light .hp-chart-title {
+  color: #686d5f;
+}
+
+.hp-chart-peak {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+
+.hp-dark .hp-chart-peak {
+  color: #5f655a;
+}
+
+.hp-light .hp-chart-peak {
+  color: #8a8f82;
+}
+
+.hp-axis {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+}
+
+.hp-dark .hp-axis {
+  color: #5f655a;
+}
+
+.hp-light .hp-axis {
+  color: #8a8f82;
+}
+
+.hp-footer {
+  font-size: 9px;
+  letter-spacing: 0.4px;
+}
+
+.hp-dark .hp-footer {
+  color: #6f7568;
+}
+
+.hp-light .hp-footer {
+  color: #767b6d;
+}
+
+.hp-footer-strong {
+  font-weight: 600;
+}
+
+/* The scroller only appears when the window is shorter than the dashboard. */
+.hp-scroller {
+  background: transparent;
+}

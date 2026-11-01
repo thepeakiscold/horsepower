@@ -1,0 +1,14 @@
+horsepower (1.0.0-0ubuntu1) resolute; urgency=medium
+
+  * Initial release.
+  * Live power from Intel and AMD RAPL energy counters, with a per-component
+    breakdown (CPU, GPU, memory, storage, remainder) that omits any part the
+    machine cannot measure.
+  * Battery fallback for machines without RAPL.
+  * Background service written in Rust: samples once a second, keeps a local
+    SQLite log, activates over D-Bus and is started at boot.
+  * Today, lifetime and cost totals, plus a per-minute chart of the last hour
+    that leaves honest gaps while the machine sleeps.
+  * Tariff and currency preferences, stored per user.
+
+ -- HorsePower contributors <furkaniusprimes@gmail.com>  Sun, 01 Nov 2026 21:30:00 +0000

@@ -1,0 +1,84 @@
+.TH HORSEPOWERD 8 "November 2026" "HorsePower 1.0.0" "System Administration"
+.SH NAME
+horsepowerd \- HorsePower power metering service
+.SH SYNOPSIS
+.B horsepowerd
+.RB [ \-\-foreground ]
+.RB [ \-\-db
+.IR PATH ]
+.RB [ \-\-interval
+.IR SECONDS ]
+.RB [ \-\-retention\-days
+.IR DAYS ]
+.RB [ \-\-bus
+.RB { system | session }]
+.RB [ \-\-verbose ]
+.SH DESCRIPTION
+.B horsepowerd
+samples the hardware energy counter once per second, keeps a running total and
+writes it to a local SQLite database. It is a compiled Rust binary and links
+only the C library; SQLite is built in. It owns the D-Bus name
+.B org.horsepower.Daemon
+and serves two methods:
+.TP
+.B org.horsepower.Daemon.GetStatus
+Returns a dictionary with the live wattage, today's energy, the lifetime
+energy, the sensor description and any error message. The
+.B components
+entry is an array of
+.RI ( key ", " label ", " watts )
+triples giving the per-part breakdown. A part that this machine cannot measure
+is absent from the array rather than present with a zero value.
+.TP
+.B org.horsepower.Daemon.GetHistory
+Takes a number of minutes and returns a list of
+.RI ( timestamp ", " watts ", " watt_hours )
+triples, one per minute.
+.PP
+A
+.B StatusChanged
+signal is emitted after every sample and
+.B HistoryChanged
+after each flush to disk.
+.PP
+The service is started on demand through D-Bus and is enabled at boot by
+.BR horsepower.service .
+Running as root is required on kernels that restrict energy counters to the
+owner of the file.
+.SH OPTIONS
+.TP
+.B \-\-foreground
+Stay in the foreground. This is the normal mode under systemd.
+.TP
+.BI \-\-db " PATH"
+Database file. Defaults to
+.IR /var/lib/horsepower/power.db .
+.TP
+.BI \-\-interval " SECONDS"
+Sampling interval, minimum 0.2. Defaults to 1.
+.TP
+.BI \-\-retention\-days " DAYS"
+How long per-minute samples are kept. Daily totals are never deleted.
+Defaults to 90.
+.TP
+.BI \-\-bus " system|session"
+Which bus to use. Defaults to
+.IR system .
+.TP
+.B \-\-sysfs\-root
+Alternative sysfs class root, used by the test suite. Pointing it at a
+directory tree containing
+.I powercap/
+and
+.I power_supply/
+lets the service be exercised without hardware.
+.TP
+.B \-\-verbose
+Log at debug level.
+.SH FILES
+.TP
+.I /var/lib/horsepower/power.db
+SQLite database. Owner root, mode 0600.
+.SH SEE ALSO
+.BR horsepower (1),
+.BR systemctl (1)
